@@ -1,6 +1,6 @@
 # Easy Umlaut
 
-## A solution to allow typing German Special character easily
+## A Chrome extension to allow typing German Special character easily
 
 # Default mapping
 
