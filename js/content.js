@@ -27,29 +27,34 @@
 
   // event handler for keydown
   function handleKeyDown(e) {
-    var input = getCharCode(e);
+    try {
+      var input = getCharCode(e);
 
-    // stop handling when inactive
-    if (!active) return;
+      // stop handling when inactive
+      if (!active) return;
 
-    if (input == "e" || input == "s") {
-      var target = e.target,
-        isEditable = target.contentEditable == "true",
-        prevChar = getPrevChar(target, isEditable),
-        key = keyCodes[prevChar];
+      if (input == "e" || input.toLocaleLowerCase() == "s") {
+        var target = e.target,
+          isEditable = target.contentEditable == "true",
+          prevChar = getPrevChar(target, isEditable),
+          key = keyCodes[prevChar];
 
-      // exclude invalid combinations
-      if (
-        (input == "s" && prevChar != "S") ||
-        (input == "e" && prevChar == "S")
-      )
-        return;
+        // exclude invalid combinations and when following a diphthong
+        if (
+          (input.toLocaleLowerCase() == "s" && prevChar != "S") ||
+          (input == "e" && prevChar == "S") ||
+          followDiphthong(target, isEditable)
+        )
+          return;
 
-      //process further for valid characters
-      if (key) {
-        e.preventDefault();
-        insertTo(target, key);
+        //process further for valid characters
+        if (key) {
+          e.preventDefault();
+          insertTo(target, key);
+        }
       }
+    } catch (error) {
+      console.log("Unhandled error: ", error);
     }
   }
 
@@ -65,6 +70,26 @@
       target.selectionStart = start;
       target.selectionEnd = end;
     }
+  }
+
+  // follow diphthong: au | eu | äu
+  function followDiphthong(target, isEditable) {
+    var text = target.value,
+      pos = target.selectionStart;
+
+    if (isEditable) {
+      target.focus();
+      var origRange = document.getSelection().getRangeAt(0),
+        range = origRange.cloneRange();
+      range.selectNodeContents(target);
+      range.setEnd(origRange.endContainer, origRange.endOffset);
+      pos = range.toString().length;
+    }
+
+    if (pos < 2) return false;
+
+    var prev2 = text.slice(pos - 2, pos);
+    return prev2 == "au" || prev2 == "eu" || prev2 == "äu";
   }
 
   // get previous character from the cursor
