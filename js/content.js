@@ -1,15 +1,14 @@
 (function() {
+  // keep track of the extension status
   var active;
 
   // check the extension status
   chrome.runtime.sendMessage({ type: "EXTENSION_STATUS" }, function(res) {
-    console.log("content.js: sendMessage: ", res);
     active = res.active;
   });
 
   // handle extension status change
   chrome.runtime.onMessage.addListener(function(req, sender, sendResponse) {
-    console.log("content.js: onMessage: ", req);
     if (req.type == "EXTENSION_STATUS_UPDATE") {
       active = req.active;
     }
