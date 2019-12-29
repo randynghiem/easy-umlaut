@@ -1,0 +1,38 @@
+{
+    "manifest_version": 2,
+    "name": "Easy Umlaut",
+    "version": "1.0",
+    "description": "Typing German special characters using their alternative forms.",
+    "permissions": [
+        "storage",
+        "tabs"
+    ],
+    "browser_action": {
+        "default_title": "Easy Umlaut"
+    },
+    "background": {
+        "scripts": [
+            "js/background.js"
+        ],
+        "persistent": true
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "http://*/*",
+                "https://*/*"
+            ],
+            "js": [
+                "js/content.js"
+            ],
+            "run_at": "document_end",
+            "all_frames": true
+        }
+    ],
+    "icons": {
+        "16": "img/Easy-Umlaut-logos16.png",
+        "32": "img/Easy-Umlaut-logos32.png",
+        "48": "img/Easy-Umlaut-logos48.png",
+        "128": "img/Easy-Umlaut-logos128.png"
+    }
+}
