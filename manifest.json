@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "Easy Umlaut",
-    "version": "1.0",
+    "version": "1.1",
     "description": "Typing German special characters using their alternative forms.",
     "permissions": [
         "storage",

@@ -72,7 +72,7 @@
     }
   }
 
-  // follow diphthong: au | eu | äu
+  // follow diphthong: au | eu | äu | qu
   function followDiphthong(target, isEditable) {
     var text = target.value,
       pos = target.selectionStart;
@@ -88,8 +88,8 @@
 
     if (pos < 2) return false;
 
-    var prev2 = text.slice(pos - 2, pos);
-    return prev2 == "au" || prev2 == "eu" || prev2 == "äu";
+    var prev2 = text.slice(pos - 2, pos).toLocaleLowerCase();
+    return prev2 == "au" || prev2 == "eu" || prev2 == "äu" || prev2 == "qu";
   }
 
   // get previous character from the cursor
